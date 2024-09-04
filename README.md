@@ -31,3 +31,11 @@
 ![Alt text](image-3.png)
 ![Alt text](image-4.png)
 #### app router
+
+#### GitHub 저장소에서 원하는 보일러플레이트 코드를 다운로드 해서 새 Next.js 프로젝트를 시작할 수도 있다.
+* ##### npx create-next-app --example <보일어플레이트 이름>
+
+### Next.js 14의 프로젝트의 기본 구조
+* ##### 프로젝트를 생성할 때 /src를 사용여부를 선택할 수 있고, 일반적으로 사용한다.
+* ##### 14에서는 /public과 /src/app 디렉토리만 용도가 정해져 있습니다.
+
