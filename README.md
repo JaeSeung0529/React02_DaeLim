@@ -39,3 +39,26 @@
 * ##### 프로젝트를 생성할 때 /src를 사용여부를 선택할 수 있고, 일반적으로 사용한다.
 * ##### 14에서는 /public과 /src/app 디렉토리만 용도가 정해져 있습니다.
 
+### ECMAScript 기능 중 파이프 라인 연산자를 사용해 보자.
+
+* ##### 파이프라인은 공식적으로 채택되지 않은 연산자 이다.
+        console.log(Math.random() * 10);
+        // 파이프라인 연산자를 사용하면 위 코드를 아래와 같이 바꿀 수 있다.
+        Math.random()
+        |> x => x * 10
+        |> console.log;
+
+* ##### 기능을 사용하려면 바벨 플러그인을 설치해야 한다.
+        npm install --save-dev @babel/plugin-proposal-pipeline-operator @babel/core
+* ##### 그리고 .babelrc 파일을 다음과 같이 수정한다. 
+        {
+            "presets": ["next/babel"],
+            "plugins": [
+                [
+                "@babel/plugin-proposal-pipeline-operator",
+                {"proposal": "fsharp"}
+                ]
+            ]
+                
+        }
+* ##### 이제 개발 서버를 재 시작하면 된다.
