@@ -1,6 +1,128 @@
 # React02_DaeLim
+<br>
 
 ## 202230233 정재승
+<br>
+
+## 2024-09-25 4주차
+
+### Next.js 공싱 예제 Data fetching
+
+#### Page router Data Fetching
+
+        export async function getStaticProps(){
+        const res = await fetch('https://api.github.com/repos/vercel/next.js')
+        const repo = await res.json()
+        return {
+        props: { repo }, 
+        revalidate: 60,
+                }
+        }
+
+        export default function Foo({repo}){
+        return(
+                <>
+                {repo.name}
+                </>
+                )
+        }
+
+![Alt text](image-8.png)
+
+![Alt text](image-9.png)
+
+![Alt text](image-12.png)
+
+#### App router Fetching
+
+
+        export async function getStaticProps(){
+    const res = await fetch('https://api.github.com/repos/vercel/next.js')
+    const repo = await res.json()
+    return {
+        props: { repo }, 
+        revalidate: 60,
+    }
+        }
+
+        export default function Foo({repo}){
+    return(
+        <>
+        {repo.owner.login}
+        </>
+    )
+        }
+
+![Alt text](image-10.png)
+
+        export default function FooId(props){
+    return(
+        <div>
+            <h1>App Router</h1>
+            <h1>foo {props.params.fooId}/{props.searchParams.contry}</h1>
+        </div>
+    )
+        }
+
+![Alt text](image-11.png)
+
+#### Page Router 에서는 SSR을 위해서 getServerSideProps라는 함수를 사용했다.
+#### 그러나 App Router에서는 fetch 함수만 비동기로 사용해서 SSR을 구현한다.
+
+### 03.Next.js 기초와 내장 컴포넌트
+
+* #### Next 는 서버사이드 렌더링 외에도 많은 내장 컴포넌트와 함수를 제공한다.
+#### [3장에서는 다음과 같은 내용을 학습한다.]
+* #### 클라이언트와 서버에서의 라우팅 시스템 작동 방식
+* #### 페이지 간 이동 최적화
+* #### Next.js가 정적 자원을 제공하는 방법
+* #### 자동 이미지 최저화와 새로운 Image 컴포넌트를 사용한 이미지 제공 최적화 기법
+* #### 컴포넌트에서 HTML 메타데이터를 처리하는 방법
+* #### _app.js와 _documents.js 파일 내용 및 커스터 마이징 방법
+
+### 3-1. 라우팅 시스템 
+* #### React의 React Router, Reach Router 등은 클라이언트 라우팅만 구현할 수 있다
+* #### Next는 파일 시스템 기반 페이지와 라우팅을 한다.
+* #### 페이지는 /pages 디렉토리 안의 *.js, *.jsx, * .ts, * .tsx 파일
+* #### /pages/posts/ 디렉토리 내에 Index.js만
+
+### 페이지에서 경로 매개변수 사용하기(pages53)
+<br>
+
+* #### 경로 매개변수를 사용해서 동적 페이지를 쉽게 만들 수 있다.
+* #### page/greet/[name].js 파일 만들어보겠다.
+* #### 내장 getServerSideProps 함수를 통해 URL에서 동적으로 [name] 변수 값을 가져오는 것이다.
+* #### greet/Mitch 주소로 가면'Hello,Mitch!'라는 문구가 렌더링 된다.
+
+![Alt text](image-13.png)
+
+        export default function FooId(props){
+    return(
+        <div>
+            <h1>App Router</h1>
+            <h1>foo {props.params.fooId}</h1>
+        </div>
+    )
+        }
+
+![Alt text](image-14.png)
+
+![Alt text](image-15.png)
+
+![Alt text](image-16.png)
+
+#### 중첩 라우팅
+![Alt text](image-17.png)
+        export default function BarId(props){
+        console.log(props)
+    return(
+        <div>
+            <h1>중첩 라우팅</h1>
+            <h1>foo {props.params.fooId}-{props.params.barId}-{props.searchParams.date}</h1>
+        </div>
+    )
+        }
+![Alt text](image-18.png)
 
 ## 2024-09-11 3주차
 ### SWC를 프로젝트에 적용하려면 
@@ -68,7 +190,7 @@
 * #### 특정 사용자 정보를 가져온 다음 클라이언트에 전달해서 사용할 수 있도록 하고 있다.
 * #### 이 경우 미리 예약된 getServerSideProps() 함수를 사용한다.
 
-                Export async function getServerSideProps(){
+        Export async function   getServerSideProps(){
                         const userRequest = await fetch('https://example.com/api/user');
                         const userData = await userRequest.json();
 
