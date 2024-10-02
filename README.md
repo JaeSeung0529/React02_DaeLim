@@ -4,6 +4,79 @@
 ## 202230233 정재승
 <br>
 
+## 2024-10-02 5주차
+
+### Page Router,
+1. #### App router[y/n(o)]
+2. #### src/ [y/n(o)]
+
+### Slug
+![Alt text](image-19.png)
+![Alt text](image-20.png)
+
+![Alt text](image-21.png)
+![Alt text](image-22.png)
+
+### Catch all
+![Alt text](image-23.png)
+```jsx
+import {useRouter} from "next/router"
+
+export default function Foo(){
+    const router = useRouter()
+    const {foo, id, name,pid} = router.query
+    console.log({foo,id,name,pid})
+
+    return (
+    <>
+        
+        <h1>foo: {foo}</h1>
+        <h1>id: {id}</h1>
+        <h1>name: {name}</h1>
+        <h1>pid: {pid}</h1>
+    </>
+    )
+}
+```
+![Alt text](image-24.png)
+<br>
+
+![Alt text](image-25.png)
+```jsx
+import {useRouter} from "next/router"
+
+export default function Foo(){
+    const router = useRouter()
+    const {foo, id, name,pid} = router.query
+    console.log({foo,id,name,pid})
+
+    return (
+    <>
+        
+        <h1>foo[0]: {foo[0]}</h1>
+        <h1>foo[1]: {foo[1]}</h1>
+        <h1>foo[2]: {foo[2]}</h1>
+        <h1>id: {id}</h1>
+        <h1>name: {name}</h1>
+        <h1>pid: {pid}</h1>
+    </>
+    )
+}
+```
+
+### App Router
+1. #### App router? [y(o)/n]
+2. #### src ? [y(o)/n]
+3. #### page router?[y/n(o)]
+4. #### dir name -> segment ( file x )
+
+![Alt text](image-26.png)
+![Alt text](image-27.png)
+
+![Alt text](image-28.png)
+![Alt text](image-29.png)
+
+
 ## 2024-09-25 4주차
 
 ### Next.js 공싱 예제 Data fetching
