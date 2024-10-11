@@ -161,6 +161,14 @@ export default function NavBar(){
 
 ![Alt text](image-41.png)
 
+* #### Import하는 방법은 다음 소스처럼 이미지를 import한 후에 이름만 사용하면 된다.
+* #### Import 경로에는 /public을 반드시 넣어줘야 한다.
+* #### 같은 이미지를 같은 페이지에서 여러번 사용할 때 편하다
+
+```jsx
+import Image from'
+```
+
 
 ## 2024-10-02 5주차
 
