@@ -159,7 +159,7 @@ export default function NavBar(){
 * #### WebP와 같은 최신 이미지 포맷 및 최신 포맷을 지원하지 않는 브라ㅜ저를 위해 png나 jpge와 같은 예전 이미지 포맷도 제공합ㄴ디ㅏ.
 * #### Pixabay나 Unplash와 같은 외부 이미지 서비스로 이미지를 제공할 수 있습니다.
 
-
+![Alt text](image-41.png)
 
 
 ## 2024-10-02 5주차
