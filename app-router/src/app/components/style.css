@@ -1,0 +1,22 @@
+/* 기본 컨테이너 스타일 */
+.nav-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 20px;
+    border: 1px solid black;
+  }
+  
+  /* 네비게이션 링크 스타일 */
+  .nav-link {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding: 10px;
+  }
+  
+  .nav-link:hover {
+    color: blue;
+    text-decoration: underline;
+  }
+  
