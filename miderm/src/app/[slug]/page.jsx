@@ -7,8 +7,8 @@ export default function Slug(props){
       </br>
         <div>
         <h1>App Router</h1>
-        <h1>foo: {props.params.slug}</h1>
-        <h1>bar: {props.searchParams.pid}</h1>
+        <h1>slug: {props.params.slug}</h1>
+        <h1>pid: {props.searchParams.pid}</h1>
         </div>
       </>
     )
