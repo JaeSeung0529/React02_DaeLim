@@ -4,6 +4,160 @@
 ## 202230233 정재승
 <br>
 
+## 2024-10-23 8주차
+
+#### local 이미지
+
+```jsx
+import Image from "next/image"
+
+export default function AboutPage() {
+    return (
+      <div>
+        <h1>About Page Content</h1>
+        <Image src="/images/다운로드 (1).jpg" alt="lightouse" width={600} height={500}/>
+        <Image src="/images/다운로드.jpg" alt="lightouse" width={600} height={500}/>
+      </div>
+    );
+  }
+  ```
+  ![Alt text](image-42.png)
+  ![Alt text](image-43.png)
+
+
+#### Import를 사용하는 방식
+```jsx 
+import Image from "next/image"
+import foo from "/public/images/다운로드.jpg"
+
+export default function AboutPage() {
+    return (
+      <div>
+        <h1>About Page Content</h1>
+        <Image src="/images/다운로드 (1).jpg" alt="lightouse" width={600} height={500}/>
+        <Image src={foo} alt="lightouse" width={600} height={500}/>
+      </div>
+    );
+  }
+  ```
+
+  ---
+
+2. ### Images Component Remote
+
+* #### Pixabay오 같은 외부 이미지를 사용하려면 next.config.mjs에 URL을 추가해 줘야 합니다.
+* #### 만일파일이 없다면 Project root에 추가해 주면 됩니다.
+* #### 파일의 초기 상태는 다음과 같습니다.
+```jsx
+/** @type {import('next').NextConfig} */
+const nextConfig = {};
+
+export default nextConfig;
+
+```
+<br>
+
+* #### nextConfig에 images를 추가합니다.
+
+```jsx
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    images: { 
+        remotePatterns:[
+            {
+                protocol: 'https',
+                hostname: 'cdn.pixabay.com'
+            }
+        ]
+    }
+};
+
+export default nextConfig;
+```
+<br>
+<br>
+
+* #### 이미지를 출력하는 코드이다.
+* #### 서비스에 따라서 도메인은 차이가 날 수 있다.
+* #### Pixabay의 경우 원하는 이미지를 넣을 수 있다
+
+```jsx
+import Image from "next/image"
+import foo from "/public/images/spitz-3699477_1920.jpg"
+
+export default function AboutPage() {
+    return (
+      <div>
+        <h1>About Page Content</h1>
+        <Image src="/images/spitz-3699479_1920.jpg" alt="lightouse" width={600} height={500}/>
+        <Image src={foo} alt="lightouse" width={600} height={500}/>
+        {/*외부 서버 이미지 출력*/}
+        <Image src="https://cdn.pixabay.com/photo/2018/12/31/14/45/bukchon-3905234_960_720.jpg" alt="bukchon-3905234" width={600} height={500}/>
+      </div>
+    );
+  }
+  ```
+  ![Alt text](image-44.png)
+  ---
+  <br>
+
+  4. ### 코드 구서오가 데이터 불러오기
+  ### 04-1 디렉토리 구조 구성
+
+  * #### Next.js에서는 특정 파일과 디렉토리가 지정된 위치에 있어야 한다. _app.js나 _document.js 파일,pages/와 public/
+  * #### Node modules/: Next.js 프로젝트의 으존성 패키지를 설치하는 디렉토리
+  <br>
+
+  ### 컴포넌트 구성
+  * #### 컴포넌트는 세 가지로 분류하고 각 컴포넌트와 관련된 스타일 및 테스트 파일을 같은 곳에 두어야 한다.
+  * #### 코드를 더 효율적으로 구성하기 위해 아토믹 디자인 원칙에 따라 디렉토리를 구성한다. 
+  * #### atoms: 가장 기본적인 컴포넌트 관리. 예) button,input,p와 같은 표준 HTML요소를 감싸는 용도로 사용되는 컴포넌트
+  * #### molecules: atom에 속한 컴포넌트 여러 개를 조합하여 복잡한 구조로 만든 컴포넌트 관리. 예) input과 label을 합쳐서 만든 새로운 컴포넌트.
+  * #### organisms: molecules와 atoms를 섞어서 더 복잡하게 만든 컴포넌트 관리. 예) footer나 carousel 컴포넌트.
+  * #### templates: 위의 모든 컴포넌트를 어떻게 배치할지 결정해서 사용자가 접근할 수 있는 페이지
+  * #### Button 컴포넌트를 예를 들면 다음과 같이 최소한 세 개의 파일을 만들어야 한다.
+  * ### 컴포넌트 파일, 스타일 파일, 테스트파일 이다.
+  * ### 이렇게 컴포넌트를 구성하면 필요할 때 컴포넌트를 찾고 수정하기 쉽다.
+  ```
+  mkdir componets/atoms/Button
+  cd components/atoms/Button
+  touch index.js
+  touch button.test.js
+  touch button.styled.js # 또는 style.module.css
+  ```
+
+  ### 유틸리티 구성
+
+  * #### 컴포넌트를 만들지 않는 코드 파일을 유틸리티 스크립트라고 한다. 
+  * #### 예를 들어 애플리케이션의 log파일을 저장하는 코드가 있다면 이것을 컴포넌트로 만들 필요가 있을까?
+  * #### 이렇게 렌더링에 필요한 컴포넌트가 아닌 기타 필요한 스크립트가 있다면, utilities/티렉토리에 별도로 관리 하는 것이 좋다.
+  * #### 그리고 각 유틸리티에 맞는 테스트 파일도 만든다. 
+  ```
+  cd utilities/  
+  touch time.js           touch time.test.js
+  touch localStorage.js   touch localStorage.test.js
+  touch jwt.js            touch jwt.test.js
+  touch logs.js           touch logs.test.js
+  ```
+
+  ### 정적 자원의 구성
+  * #### 정적 자원은 public/디렉토리에서 관리한다.
+  * #### 일반적인 웹 애플리케이션에서는 다음과 같은 정적 자우너을 사용한다. 
+  <br>
+
+  ### 스타일 파일 구성 
+  * #### 스타일 파일은 앱에서 어떤 스타일 관련 기술을 사용하는가에 따라 구성 달라진다.
+  * #### Emotion,styled-components,JSS와 같은 CSS-in-JS 프레임워크의 경우 컴포넌트별로 스타일 파일을 만든다. 이렇게 하면 스타일 변경도 쉽다.
+  * #### 만일 컬러 팔레트, 미디어 쿼리와 같은 공통 스타일의 경우는 styles/디렉토리를 사용한다. 
+  
+
+
+  ### 04-2 데이터 불러오기
+
+
+ 
+
+
 ## 2024-10-11 6주차
 
 ## Next.js의 Layout
