@@ -4,7 +4,172 @@
 ## 202230233 정재승
 <br>
 
-## 2024-10-23 8주차
+
+## 2024-10-30 10주차
+
+* #### 서버에서는 두 가지 방법으로 HTTP 요청을 만들고 처리할 수 있다. 
+  * #### Node의 내장 HTTP 라이브러리를 사용할 수 있다. 다만 서드파티 HTTP 클라이언트와 비교했을 때 설정하고 처리해야 할 작업이 더 많은 편이다. 
+  * #### HTTP 클라이언트 라이브러리를 사용할 수 있다 가장 유명한 것이 Axios이다.
+
+### 서버에서 REST API 사용하기 
+* #### REST API를 호출할 때는 public API를 호출할 것인지, private API를 호출할 것인지를 먼저 확인해야 한다.
+
+1. ### REST API - 기본 설계 규칙 
+* #### URI는 동사보다는 명사를, 대문자보다는 소문자를 사용하여야 한다.
+  ```
+  Bad Example: https://developer.n.com/Running/
+  Good Example: https://developer.n.com/run/```
+
+* #### 주소의 마지막에 슬래시(/)를 포함하지 않습니다.
+  ``` 
+  Bad Example: https://developer.n.com/test/
+  Good Example: https://developer.n.com/test
+  ```
+
+* #### 단어를 연결할 때는 하이픈(-)을 사용합니다.
+  ```
+  Bad Example: https://developer.n.com/test_blog
+  Good Example: https://developer.n.com/test-blog
+  ```
+
+* ####  파일확장자는 URI에 포함하지 않습니다.
+  ```
+  Bad Example: https://developer.n.com/photo. jpg
+  Good Example: https://developer.n.com/photo
+  ```
+
+* #### URI에 메소드를 포함하지 않습니다.
+  ```
+  Bad Example: https://developer.n.com/ delete-post/1
+  Good Example: https://developer.n.com/post/1
+  ```
+
+### JSON SEVER
+ ![Alt text](image-46.png)
+
+ ![Alt text](image-47.png)
+
+ ![Alt text](image-48.png)
+
+ ![Alt text](image-49.png)
+
+ ![Alt text](image-50.png)
+
+ ![Alt text](image-51.png)
+
+ 3. ### Axuis란 
+ * ##### Next.js에서 REST API를 다룰 때는 보통 axios와 fetch 중 하나를 선택하는 경우가 많다. 
+
+
+ ### [Fetch API]
+ * #### 내장 API 브라우저에 내장되어 있어 별도의 설치가 필요 없다.
+ * #### Promise ㄱ비ㅏㄴ: 비동기 작업을 처리하는 데 익숙한 구조
+ * #### 스트림 처리: 데이터를 스트리밍으로 처리할 수 있는 기능이 있어, 큰 파일을 처리하는데 유용하다.
+ #### 단점은 ...
+ * #### json 변환 수동 처리 
+ * #### 에러 처리 복잡성
+
+ 3. ### Axios 사용하기
+ #### npm i axios
+
+![Alt text](image-53.png)
+
+![Alt text](image-54.png)
+
+```jsx
+import axios from "axios";
+
+export default async function Axios(){
+    const res = await axios.get ("http://localhost:4000/test") 
+    const users = res.data
+    console.log(users)
+
+    return(
+        <>
+        <h1>axios</h1>
+        {
+            users.map((user,id) => {
+                return (
+                    <div key={id}>
+                        <h2>{user.id}</h2>
+                        <h3>{user.name}</h3>
+                        <h3>{user.title}</h3>
+                        <h3>{user.body}</h3>
+                    </div>
+                )
+            })
+        }
+        </>
+    );
+    
+
+
+}
+```
+
+### 위 코드 개선 할 부분
+1. #### useState와 useEffect 사용
+  * #### 비동기 데이터를 가져오는 작업은 컴포넌ㅌ으ㅢ 사태로 관리하는 것이 이반적이다. 현재 코드에서는 users 데이터가 비동기적으로 로드되는데, 이를 관리하기 위한 useState와 useEffect 훅이 빠져 있다.
+  * #### 데이터를 로드하기 전에 컴포넌트가 렌더링되기 때문에, users 변수가 초기에는 존재하지 않아 undefined 에러가 발생할 가능성이 있다. 
+2. #### Loading 상태 처리 
+
+```jsx
+"use client";
+
+import axios from "axios";
+import { useState,useEffect } from "react";
+
+export default function Axios(){
+    const [users, setUsers] = useState(null)
+    const [loading, setLoading] = useState(null)
+
+    useEffect(() => {
+        const fetchUsers = async ()  => { 
+            try{
+                const res = await axios.get ("http://localhost:4000/test");
+                setUsers(res.data)//상태 업데이트
+            }catch(error){
+                console.error("Error",error)
+            }finally{
+                setLoading(false)//로딩 업데이트 
+            }
+        }
+        fetchUsers()//로딩 완료
+
+    }, [])// 컴포넌트가 마운트 될때만 실행
+
+    if(loading) return <h1>Loading....</h1>// 로딩 중일 때 
+    if(!users) return <h1>No Users Fount</h1>//데이터가 없을 때 
+
+    return(
+        <>
+        <h1>axios</h1>
+        {
+            users.map((user,id) => {
+                return (
+                    <div key={id}>
+                        <h2>{user.id}</h2>
+                        <h3>{user.name}</h3>
+                        <h3>{user.title}</h3>
+                        <h3>{user.body}</h3>
+                    </div>
+                )
+            })
+        }
+        </>
+    );
+    
+
+
+}
+```
+
+
+ 
+
+
+
+## 2024-10-23 9주차
 
 #### local 이미지
 

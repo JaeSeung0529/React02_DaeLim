@@ -16,6 +16,9 @@ export default function NavBar() {
       <nav>
         <Link href="/foo" className="nav-link">FOO</Link>
       </nav>
+      <nav>
+        <Link href="/rest-api-axios" className="nav-link">rest-api-axios</Link>
+      </nav>
     </div>
   );
 }
