@@ -4,6 +4,115 @@
 ## 202230233 정재승
 <br>
 
+## 2024-11-06 11주차
+
+### 06. CSS와 내장 스타일링 메서드
+
+### 6.1 Styled JSX
+
+* #### Styled JSX는 CSS-in-JS 라이브러리 입니다. 내장 모듈이기 때문에 설치가 필요 없습니다. 
+* #### 즉, CSS속성 지정을 위해 자바스크립트를 사용할 수 있는 라이브러리 이다.
+
+```jsx
+"use client";
+
+export default function CssEx(){
+    return(
+        <>
+        <h1>CssEx Page</h1>    
+        <button className="button">버튼1</button>
+        <style jsx>{`
+            .button{
+                background: green;
+                color: white;
+            }       
+        `}
+        </style>
+        </>
+    )
+}
+```
+![Alt text](image-55.png)
+
+### CSS-in-JS의 단점
+* #### IDE나 코드 편집기 등 개발 도구에 대한 지원이 부족하다. 
+* #### 문법 하이라이팅, 자동 완성, 린트 기능을 제공하지 않는다.
+* #### 코드 내에서 CSS에 대한 의조성이 점점 커지기 때문에 앱 번들도 커지고 느려진다.
+* #### 서버에 미리 CSS를 생성해도 클라이언트에서 리액트 하이드레이션이 끝나면 CSS를 다시 생성해야 ㅏㄴ다.
+
+
+### 6.2 CSS Module 
+* #### CSS-in-JS의 단점을 회피하ㅣ 위한 좋은 방법은 바로 CSS Module이다.
+
+```jsx
+import Image from "next/image";
+import styles from "./page.module.css";
+
+export default function Home() {
+  return (
+    <>
+    <h1 className={styles.main}>Home Page</h1>
+    <h1 className={styles.title}>Home Page</h1>
+    </>
+  )
+
+}
+```
+```jsx
+.title{
+  color: red;
+}
+
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6rem;
+  min-height: 50vh;
+}
+```
+
+![Alt text](image-56.png)
+----
+
+![Alt text](image-57.png)
+![Alt text](image-58.png)
+![Alt text](image-59.png)
+
+#### composes
+
+```jsx
+.woo{
+    color: green;
+    background: red;
+    display: flex;
+    flex: 1;
+}
+
+.gie{
+    composes: woo;
+    color: yellow;
+}
+```
+![Alt text](image-60.png)
+
+### 06-3 SASS
+* #### Next에서 기본으로 지원하는 전 처리기 입니다.
+* #### 단 패키지 설치가 필요하다. $ npm install sass
+* #### SASS 및 SCSS(Sassy CSS) 문법으로 CSS Moudule을 만들고 사용할 수 있다. 
+
+```jsx
+$font-size: red;
+
+.bar{
+    color: $font-size;
+}
+```
+![Alt text](image-61.png)
+![Alt text](image-62.png)
+
 
 ## 2024-10-30 10주차
 

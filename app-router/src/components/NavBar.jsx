@@ -1,5 +1,6 @@
 import Link from "next/link";
 import "./style.css";  // CSS 파일을 import
+import CssEx from "./CssEx";
 
 export default function NavBar() {
   return (
@@ -18,6 +19,15 @@ export default function NavBar() {
       </nav>
       <nav>
         <Link href="/rest-api-axios" className="nav-link">rest-api-axios</Link>
+      </nav>
+      <nav>
+      <Link href="/cssEx" className="nav-link"><CssEx></CssEx></Link>
+      </nav>
+      <nav>
+      <Link href="/cssModule" className="nav-link">CssModule</Link>
+      </nav>
+      <nav>
+      <Link href="/sassEx" className="nav-link">SassEx</Link>
       </nav>
     </div>
   );

@@ -1,0 +1,11 @@
+.woo{
+    color: green;
+    background: red;
+    display: flex;
+    flex: 1;
+}
+
+.gie{
+    composes: woo;
+    color: yellow;
+}

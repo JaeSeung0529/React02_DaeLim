@@ -1,5 +1,5 @@
 import HelpLayout from "./about/layout";
-import NavBar from "./components/NavBar";
+import NavBar from "../components/NavBar";
 
 export const metadata = {
   title: {
