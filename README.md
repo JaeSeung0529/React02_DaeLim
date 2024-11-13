@@ -4,6 +4,155 @@
 ## 202230233 정재승
 <br>
 
+## 2024-11-13 12주차
+
+### 07.UI 프레임워크
+
+### 07-1 UI 라이브러리
+
+* #### UI 라이브러리, 프레임웤, 유틸리티 기능이 필수는 아니다. 
+* #### 다만 생산성 향상 및 UI의 일관성을 유지하는데 많은 도움을 받을 수 있다. 
+* #### 이번 장에서는 다음 3가지의 프레임워크에 관해 간단히 알아 보자.
+* #### chakra UI
+* #### TailwindCSS
+* #### HeadlessUI
+
+### 07-2 Chakra UI
+
+### 07-3 Tailwind CSS
+* #### 다른 플에ㅣㅁ워크와는 다르게 CSS 규칙만을 제공한다. 
+* #### 자바스크립트 모듈이나 리엑트 컴포넌트를 제공하지 않기 때문에 필요한 경우 직접 만들어서 사용해야 한다 
+* #### 변수값을 조정하여 개성있는 디자인을 만들 수 있다. 디자인의 자유도가 높다.
+* #### dark mode 및 light mode를 쉽게 적용할 수 있다.
+* #### 빌드 시점에 사용하지 않는 클래스는 제거 되기 때문에 높은 수준의 최적화를 지원한다.
+* #### CSS 클래스의 접두사를 활용해서 모바일, 데스크톱, 태블릿 화면에서 원하는 규칙을 지정할 수 있다. 
+
+### 07-04 HeadlessUI
+* #### TailwindCSS를 만든 Tailwind Labs 팀의 무료 오픈소스 프로젝트이다.
+* #### TailwindCSS는 웹 컴포넌트 안에서 사용할 수 있는 CSS클래스만 제공한다. 
+* #### 따라서 모달이나 버튼 등 동적인 컴포넌트를 만들려면 직접 자바스크립트 코드를 작성해야 한다. 
+* #### 이런 단점을 보완하기 위해서 Headless UI가 탄생했다.
+* #### Headless UI은 CSS클래스를 제공하는 것이 아니라 동적 컴포넌트만 제공한다. 
+
+
+### 1. Project 생성
+* #### Tailwind 사용을 위해 프로젝트를 다시 생성합니다.
+* #### 프로젝트를 다시 생성하지 않고 설정할 수도 있지만 과정이 다소 복잡하다.
+* #### 프로젝트는 NEXT.js14로 한다.
+* #### 15.0.2 버전이 릴리즈 되어 있으나 아직 Tailwind와의 호환성이 안정적이지 않다.
+* #### $npx create-next-app@14
+* #### 프로젝트 이름은 자유로 하고, 나머지는 모두 yes로 한다.
+
+![Alt text](image-63.png)
+![Alt text](image-64.png)
+
+### 3. Headless UI
+
+```jsx
+import { Menu, MenuButton, MenuItem, MenuItems,Button  } from '@headlessui/react'
+
+export default function Headless(){
+    return (
+        <>
+            <h1>Headless UI</h1>
+            <Menu>
+      <MenuButton>My account</MenuButton>
+      <MenuItems anchor="bottom">
+        <MenuItem>
+          <a className="block data-[focus]:bg-blue-100" href="/settings">
+            Settings
+          </a>
+        </MenuItem>
+        <MenuItem>
+          <a className="block data-[focus]:bg-blue-100" href="/support">
+            Support
+          </a>
+        </MenuItem>
+        <MenuItem>
+          <a className="block data-[focus]:bg-blue-100" href="/license">
+            License
+          </a>
+        </MenuItem>
+      </MenuItems>
+    </Menu>
+    <Button className="rounded bg-sky-600 py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700">
+      Save changes
+    </Button>
+        </>
+    )
+}
+```
+![Alt text](image-65.png)
+![Alt text](image-66.png)
+![Alt text](image-67.png)
+
+4. ### Chakra UI
+* #### 구글에서 Chakra UI를 검색하고 사이트에 접속합니다.
+* #### Home화면에서 Start Building 버튼을 클릭하고 Next.js를 선택한다.
+* #### App/chakra/page.js 파일을 생성한다.
+* #### 지시대로 설치한다. 
+
+
+https://www.chakra-ui.com/docs/get-started/frameworks/next-app
+
+![Alt text](image-68.png)
+```jsx
+import { Button } from "@/components/ui/button"
+import { HStack,AspectRatio  } from "@chakra-ui/react"
+import {
+    AccordionItem,
+    AccordionItemContent,
+    AccordionItemTrigger,
+    AccordionRoot,
+  } from "@/components/ui/accordion"
+
+export default function Chakra(){
+    return(
+        <>
+        <HStack>
+        <Button>Click me</Button>
+        <Button>Click me</Button>
+      </HStack>
+      <AspectRatio ratio={16 / 9}>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.952912260219!2d3.375295414770757!3d6.5276316452784755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sLagos!5e0!3m2!1sen!2sng!4v1567723392506!5m2!1sen!2sng" />
+    </AspectRatio>
+
+    <AccordionRoot collapsible defaultValue={["b"]}>
+      {items.map((item, index) => (
+        <AccordionItem key={index} value={item.value}>
+          <AccordionItemTrigger>{item.title}</AccordionItemTrigger>
+          <AccordionItemContent>{item.text}</AccordionItemContent>
+        </AccordionItem>
+      ))}
+    </AccordionRoot>
+      </>
+    )
+}
+
+const items = [
+    { value: "a", title: "First Item", text: "Some value 1..." },
+    { value: "b", title: "Second Item", text: "Some value 2..." },
+    { value: "c", title: "Third Item", text: "Some value 3..." },
+  ]
+  ```
+  ![Alt text](image-69.png)
+
+  ### 5. React-icon
+
+  ```jsx
+  import { DiApple } from "react-icons/di";
+
+export default function ReactIcon(){
+    return (
+        <>
+            <h1>React Icon</h1>
+            <DiApple size={300}/>
+        </>
+    )
+}
+```
+![Alt text](image-70.png)
+
 ## 2024-11-06 11주차
 
 ### 06. CSS와 내장 스타일링 메서드
