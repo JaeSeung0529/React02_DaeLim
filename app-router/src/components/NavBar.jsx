@@ -30,5 +30,6 @@ export default function NavBar() {
       <Link href="/sassEx" className="nav-link">SassEx</Link>
       </nav>
     </div>
+    
   );
 }

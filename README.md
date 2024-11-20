@@ -4,6 +4,157 @@
 ## 202230233 정재승
 <br>
 
+## 2024-11-20 13주차
+
+### Next.js의 Props 전달 방법
+
+### Props 흐름의 이해 
+
+* #### Next.js의 데이터 흐름은 단방향으로 이루어 진다. 
+* #### 즉, parents에서 child component의 방향으로 props의 흐름이 이루어 진다. 
+* #### 따라서 계층 구조가 복잡해 지면 Props Drilling 문제가 발생한다. 
+
+* #### props Drilling은 다음과 같은 문제를 발생 시킬 수 있다. 
+1. #### 중간에 위치한 component에 불필요한 props를 전달해야 하는 문제. 
+2. #### 타셋 component까지 props가 전달되지 않을 경우 원인 규명의 어려움.
+3. #### 필요 이상으로 코드가 복잡해 지는 문제. 
+* #### 이런 문제를 해결하려면 props를 전역으로 사용하면 된다. 
+* #### Next.js에세 props를 전역으로 사용하기 위해서 Context API, Redux등을 사용한다. 
+
+```jsx
+import ComponentA from '@/components/ComponentsA'
+
+export default function PropsFlow(){
+    const data = {id: 1, name: 'woo', message: 'Hello World'}
+    return(
+        <>
+        <h1>Props Flow</h1>
+
+        <ComponentA foo={data}/>
+        </>
+    )
+}
+```
+```jsx
+import ComponentB from '@/components/ComponentsB'
+
+export default function ComponentA({foo}){
+    return(
+        <>
+        <h1>ComponentA</h1>
+        <p>ComponentA - {foo.id}</p>
+        <ComponentB data={foo}/>
+        
+        </>
+    )
+}
+```
+```jsx
+import ComponentC from "./ComponentsC"
+export default function ComponentB({data}){
+    return(
+        <>
+        <h1>ComponentB</h1>
+        <p>ComponentB - {data.name}</p>
+        <ComponentC props={data}/>
+        
+        </>
+    )
+}
+```
+```jsx
+export default function ComponentC({props}){
+    return(
+        <>
+            <h1>ComponentC</h1>
+            <p>ComponentC - {props.message}</p>
+        </>
+    )
+}
+```
+![Alt text](image-71.png)
+
+* #### Component A,B,C props-flow 페이지 상호간에는 계층구조를 가지고 있지 않는다.
+* #### 아직 어느 쪽에서도 component 호출하지 않았기 대문이다.
+* #### 그러나 어느 쪽이든 Component를 호출 하는 순간, 호출한 쪽은 parent가 되고, 호출 받은 족은 child가 된다.
+* #### 이 것은 component간, component와 page 간 모두에 적용된다. 
+* #### 관계가 한번 성립되면 child가 parent를 호출 할 수는 없다. 
+* #### 예를 들어 A가 B를 호출한 경우, A는 parent, B는 hild가 된다. 
+* #### 이 관계는 아직 아무도 호출하지 않거나, 호출 받지 않은 c에게는 적용되지 않는다. 
+* #### 즉, C는 A,B모두 호출 할 수 있게 된디 이 경우 C가 parent,Adhk B child가 된다.
+* #### A와 B의 관계,C와 A,B의 관걔가 공조하게 된다. 
+* #### A는 B만 호출 할 수 있고, C는 AB 모두를 호출 할 수 있으며 그반대는 불가능하다. 
+* #### 그리고 B는 아무것도 호출 할 수 없고, A는 C를 호출할 수 없는 관계가 된다.
+
+## 2. Context API (실습)
+
+```jsx
+'use client'
+import { createContext,useState, useEffect} from 'react';
+
+const ThemeContext = createContext();
+export const ThemeProvider = ({children}) => { 
+    const [theme, setTheme] = useState('light');
+    const toggleTheme = () =>{
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+    }
+    useEffect(() => { 
+        document.body.className = theme;
+    },[theme])
+    return(
+        <ThemeContext.Provider value={{theme, toggleTheme}}>
+            {children}
+        </ThemeContext.Provider>
+    )
+}
+
+export default ThemeContext;
+```
+
+```jsx
+import { useContext } from "react";
+import ThemeContext from "../contexts/ThemeContext";
+
+const ThemeToggleButton = () => {
+    const {theme, toggleTheme } = useContext(ThemeContext)
+
+    return(
+        <button onClick={toggleTheme}> 
+            {theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+        </button>
+    )
+}
+
+export default ThemeTogglebutton;
+```
+## 3.2 주요 File의 역할 
+### [Redux Provider]
+* #### Redux Provider는 Redux의 상태 등을 공급하기 위한 파일 이다. 
+* #### Provider는 사용하고자 하는 page에서 사용하면 된다.
+* #### 다만 전역적으로 사용할 때 layout 파일에 정의하면 'use client'를 사용해야 하기 때문에 별도의 omponent로 만들어서 사용하는 것이 좋다. 
+#### (예시)
+#### src/store/store.js (counter상태관리)
+#### src/store/CounterProvider(counter 기능 관련 컴포넌트)
+
+## 4. Context API vs. Redux
+### [context API]
+* #### React에서 기본으로 제공하는 상태 관리 도구로, 외부 라이브러리 설치 없이 사용 가능하다. 
+
+### {단점}
+* #### 복잡한 상태 관리에 한계: 상태가 복잡하거나 다양한 액션을 통해 변경이 이루어져야 하는 경우, 관리가 어려워질 수 있다.
+* #### 성능 문제: 상태가 업데이트되면 해당 상태를 사용하는 모든 하위 커모넌트가 다시 랜더링 되므로, 상태 범위가 넓을 경우 성능에 영향을 미칠 수 있다. 디버깅 도구 부족: 상태 변경 ㅗ가정을 추적하고 관리하는 Redux DevTools와 같은 도구가 기본적으로 제공되지 않는다. 
+
+### Redux
+* #### Redux는 전역 상태를 관리하기 위한 독립적인 state관리 라이브러리이다. 
+* #### 상태의 변경을 예측 가능하게 하고, 전역 state관리를 더 구조ㄱ적으로 지원한다. 
+* #### store, reducer,action 등의 개념을 사용해 state와 state dispatch를 관리한다. 
+### (장점)
+* #### 명확한 상태 관리 구조: 액션과 reducer를 통해 state dispatch과정을 예측 가능하게 만들고, 코드의 가독성을 높인다. 
+* #### 미들웨어 지원: redux-thunk, redux-saga와 같은 미들웨어를 사용해 비동기 로직을 수비게 처리할 수 잇다. 
+* #### 디버깅 도구: Redux DevTools를 통해 상태 변화 및 디버깅이 용이하다. 
+* #### 모든 프레임워크와 호환: React뿐만 아니라 다른 JavaScript 프레임워크와도 함계 사용할 수 있다.
+
+
 ## 2024-11-13 12주차
 
 ### 07.UI 프레임워크

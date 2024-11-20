@@ -1,5 +1,7 @@
 import HelpLayout from "./about/layout";
 import NavBar from "../components/NavBar";
+import { ThemeProvider } from "../contexts/ThemeContext";
+import ThemeToggleButton from "../components/ThemeToggleButton";
 
 export const metadata = {
   title: {
@@ -11,17 +13,21 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ko">
+    <html lang="ko"> 
       <body>
+      <ThemeProvider>
         <header>
           <h1>===== Header =====</h1>
           <NavBar></NavBar>
+          <ThemeToggleButton/>
         </header>
         <main>{children}</main>
         <footer>
           ----- Footer -----
         </footer>
+        </ThemeProvider>
       </body>
+      
     </html>
   );
 }
