@@ -1,0 +1,14 @@
+.name{
+    color: green;
+    font-size: 30px;
+  }
+
+  .path{
+    color: red;
+    font-weight: bold;
+  }
+
+  .no{
+    color: blue;
+    font-weight: bold;
+  }
