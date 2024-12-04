@@ -2,6 +2,7 @@ import HelpLayout from "./about/layout";
 import NavBar from "../components/NavBar";
 import { ThemeProvider } from "../contexts/ThemeContext";
 import ThemeToggleButton from "../components/ThemeToggleButton";
+import "../app/globals.css";
 
 export const metadata = {
   title: {
